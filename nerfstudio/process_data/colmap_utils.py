@@ -166,7 +166,7 @@ def run_colmap(
 
     mapper_cmd = " ".join(mapper_cmd)
 
-    CONSOLE.log("[bold green]:tada: " + feature_matcher_cmd + "\n" + feature_matcher_cmd + "\n" + mapper_cmd)
+    CONSOLE.log("[bold green]:tada: " + feature_extractor_cmd + "\n" + feature_matcher_cmd + "\n" + mapper_cmd)
 
     with status(
         msg="[bold yellow]Running COLMAP bundle adjustment... (This may take a while)",
