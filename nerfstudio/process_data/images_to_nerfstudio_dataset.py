@@ -102,37 +102,27 @@ class ImagesToNerfstudioDataset(ColmapConverterToNerfstudioDataset):
                 raise RuntimeError("No usable images in the data folder.")
             summary_log.append(f"Starting with {num_frames} images")
 
-        trials = 0
-        
-        while trials < 2:
-            temp_log = ""
-            # Run COLMAP
-            if not self.skip_colmap:
-                require_cameras_exist = True
-                self._run_colmap()
-                # Colmap uses renamed images
-                image_rename_map = None
+        # Run COLMAP
+        if not self.skip_colmap:
+            require_cameras_exist = True
+            self._run_colmap()
+            # Colmap uses renamed images
+            image_rename_map = None
 
-            # Export depth maps
-            image_id_to_depth_path, log_tmp = self._export_depth()
-            temp_log += log_tmp
+        # Export depth maps
+        image_id_to_depth_path, log_tmp = self._export_depth()
+        summary_log += log_tmp
 
-            if require_cameras_exist and not (self.absolute_colmap_model_path / "cameras.bin").exists():
-                raise RuntimeError(f"Could not find existing COLMAP results ({self.colmap_model_path / 'cameras.bin'}).")
+        if require_cameras_exist and not (self.absolute_colmap_model_path / "cameras.bin").exists():
+            raise RuntimeError(f"Could not find existing COLMAP results ({self.colmap_model_path / 'cameras.bin'}).")
 
-            temp_log += self._save_transforms(
-                num_frames,
-                image_id_to_depth_path,
-                None,
-                image_rename_map,
-            )
-            if self.num_matched_frames == num_frames:
-                summary_log += temp_log
-                break
-            else:
-                summary_log += "Failed one time, trying another"
-            trials += 1
-        
+        summary_log += self._save_transforms(
+            num_frames,
+            image_id_to_depth_path,
+            None,
+            image_rename_map,
+        )
+
         CONSOLE.log("[bold green]:tada: :tada: :tada: All DONE :tada: :tada: :tada:")
 
         for summary in summary_log:
