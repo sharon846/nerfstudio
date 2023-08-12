@@ -42,3 +42,5 @@ colmap mapper --database_path "$output_dir/colmap/database.db" --image_path "$im
 --output_path "$output_dir/colmap/sparse" --Mapper.multiple_models 0 \
 --Mapper.min_num_matches 10 --Mapper.tri_min_angle 0.5 \
 --Mapper.tri_ignore_two_view_tracks 0
+
+python convert.py --output_dir "$output_dir/"
