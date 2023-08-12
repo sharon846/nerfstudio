@@ -160,29 +160,12 @@ def run_colmap(
         "--Mapper.tri_min_angle 0.5",
         "--Mapper.tri_ignore_two_view_tracks 0",
     ]
-    #if colmap_version >= 3.7:
-    #    mapper_cmd.append("--Mapper.ba_global_function_tolerance 1e-6")
-
     mapper_cmd = " ".join(mapper_cmd)
 
     #CONSOLE.log("[bold green]:tada: " + feature_extractor_cmd + "\n" + feature_matcher_cmd + "\n" + mapper_cmd)
-
-    with status(
-        msg="[bold yellow]Running COLMAP bundle adjustment... (This may take a while)",
-        spinner="circle",
-        verbose=verbose,
-    ):
+    with status(msg="[bold yellow]Running COLMAP mapper...", spinner="runner", verbose=verbose):
         run_command(mapper_cmd, verbose=verbose)
-    CONSOLE.log("[bold green]:tada: Done COLMAP bundle adjustment.")
-    with status(msg="[bold yellow]Refine intrinsics...", spinner="dqpb", verbose=verbose):
-        bundle_adjuster_cmd = [
-            f"{colmap_cmd} bundle_adjuster",
-            f"--input_path {sparse_dir}/0",
-            f"--output_path {sparse_dir}/0",
-            "--BundleAdjustment.refine_principal_point 1",
-        ]
-        run_command(" ".join(bundle_adjuster_cmd), verbose=verbose)
-    CONSOLE.log("[bold green]:tada: Done refining intrinsics.")
+    CONSOLE.log("[bold green]:tada: Done COLMAP mapping adjustment.")
 
 
 def parse_colmap_camera_params(camera) -> Dict[str, Any]:
