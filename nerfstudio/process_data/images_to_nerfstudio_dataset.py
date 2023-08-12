@@ -129,8 +129,10 @@ class ImagesToNerfstudioDataset(ColmapConverterToNerfstudioDataset):
             if self.num_matched_frames == num_frames:
                 summary_log += temp_log
                 break
+            else:
+                summary_log += "Failed one time, trying another"
             trials += 1
-
+        
         CONSOLE.log("[bold green]:tada: :tada: :tada: All DONE :tada: :tada: :tada:")
 
         for summary in summary_log:
