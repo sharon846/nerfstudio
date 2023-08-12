@@ -119,7 +119,6 @@ def run_colmap(
         f"--database_path {colmap_dir / 'database.db'}",
         f"--image_path {image_dir}",
         "--ImageReader.single_camera 1",
-        f"--ImageReader.camera_model {camera_model.value}",
         f"--SiftExtraction.use_gpu {int(gpu)}",
     ]
     if camera_mask_path is not None:
@@ -161,8 +160,8 @@ def run_colmap(
         "--Mapper.tri_min_angle 0.5",
         "--Mapper.tri_ignore_two_view_tracks 0",
     ]
-    if colmap_version >= 3.7:
-        mapper_cmd.append("--Mapper.ba_global_function_tolerance 1e-6")
+    #if colmap_version >= 3.7:
+    #    mapper_cmd.append("--Mapper.ba_global_function_tolerance 1e-6")
 
     mapper_cmd = " ".join(mapper_cmd)
 
