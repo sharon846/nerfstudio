@@ -92,7 +92,7 @@ def run_colmap(
     camera_mask_path: Optional[Path] = None,
     gpu: bool = True,
     verbose: bool = False,
-    matching_method: Literal["vocab_tree", "exhaustive", "sequential"] = "vocab_tree",
+    matching_method: Literal["vocab_tree", "exhaustive", "sequential"] = "exhaustive",
     colmap_cmd: str = "colmap",
 ) -> None:
     """Runs COLMAP on the images.
@@ -135,6 +135,10 @@ def run_colmap(
         f"{colmap_cmd} {matching_method}_matcher",
         f"--database_path {colmap_dir / 'database.db'}",
         f"--SiftMatching.use_gpu {int(gpu)}",
+        "--SiftMatching.min_num_inliers 10",
+        "--SiftMatching.max_distance 1.00",
+        "--SiftMatching.guided_matching 1",
+        "--SiftMatching.multiple_models 0",
     ]
     if matching_method == "vocab_tree":
         vocab_tree_filename = get_vocab_tree()
@@ -152,6 +156,11 @@ def run_colmap(
         f"--database_path {colmap_dir / 'database.db'}",
         f"--image_path {image_dir}",
         f"--output_path {sparse_dir}",
+        "--Mapper.multiple_models 0",
+        "--Mapper.min_num_matches 10",
+        "--SiftMatching.guided_matching 1",
+        "--Mapper.tri_min_angle 0.5",
+        "--Mapper.tri_ignore_two_view_tracks 0",
     ]
     if colmap_version >= 3.7:
         mapper_cmd.append("--Mapper.ba_global_function_tolerance 1e-6")
