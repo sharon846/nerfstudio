@@ -96,7 +96,8 @@ class ColmapConverterToNerfstudioDataset(BaseConverterToNerfstudioDataset):
     """If --use-sfm-depth and this flag is True, also export debug images showing Sf overlaid upon input images."""
     same_dimensions: bool = True
     """Whether to assume all images are same dimensions and so to use fast downscaling with no autorotation."""
-
+    num_matched_frames: int = 0
+    
     @staticmethod
     def default_colmap_path() -> Path:
         return Path("colmap/sparse/0")
@@ -125,15 +126,15 @@ class ColmapConverterToNerfstudioDataset(BaseConverterToNerfstudioDataset):
         summary_log = []
         if (self.absolute_colmap_model_path / "cameras.bin").exists():
             with CONSOLE.status("[bold yellow]Saving results to transforms.json", spinner="balloon"):
-                num_matched_frames = colmap_utils.colmap_to_json(
+                self.num_matched_frames = colmap_utils.colmap_to_json(
                     recon_dir=self.absolute_colmap_model_path,
                     output_dir=self.output_dir,
                     image_id_to_depth_path=image_id_to_depth_path,
                     camera_mask_path=camera_mask_path,
                     image_rename_map=image_rename_map,
                 )
-                summary_log.append(f"Colmap matched {num_matched_frames} images")
-            summary_log.append(colmap_utils.get_matching_summary(num_frames, num_matched_frames))
+                summary_log.append(f"Colmap matched {self.num_matched_frames} images")
+            summary_log.append(colmap_utils.get_matching_summary(num_frames, self.num_matched_frames))
 
         else:
             CONSOLE.log(
