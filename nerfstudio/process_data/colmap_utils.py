@@ -92,7 +92,7 @@ def run_colmap(
     camera_mask_path: Optional[Path] = None,
     gpu: bool = True,
     verbose: bool = False,
-    matching_method: Literal["vocab_tree", "exhaustive", "sequential"] = "exhaustive",
+    matching_method: Literal["vocab_tree", "exhaustive", "sequential"] = "vocab_tree",
     colmap_cmd: str = "colmap",
 ) -> None:
     """Runs COLMAP on the images.
