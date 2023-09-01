@@ -137,7 +137,7 @@ def run_colmap(
         "--SiftMatching.min_num_inliers 10",
         "--SiftMatching.max_distance 1.00",
         "--SiftMatching.guided_matching 1",
-        "--SiftMatching.multiple_models 0",
+        "--SiftMatching.multiple_models 1",
     ]
     if matching_method == "vocab_tree":
         vocab_tree_filename = get_vocab_tree()
