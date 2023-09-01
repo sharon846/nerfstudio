@@ -135,7 +135,7 @@ def run_colmap(
         f"--database_path {colmap_dir / 'database.db'}",
         f"--SiftMatching.use_gpu {int(gpu)}",
         "--SiftMatching.min_num_inliers 10",
-        "--SiftMatching.max_distance 200.00",
+        "--SiftMatching.max_distance 1.00",
         "--SiftMatching.guided_matching 1",
         "--SiftMatching.multiple_models 0",
     ]
