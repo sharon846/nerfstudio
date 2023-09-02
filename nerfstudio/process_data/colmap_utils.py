@@ -135,10 +135,10 @@ def run_colmap(
         f"--database_path {colmap_dir / 'database.db'}",
         f"--SiftMatching.use_gpu {int(gpu)}",
         "--SiftMatching.min_num_inliers 10",
-        "--SiftMatching.min_inlier_ratio 0.05",
+        "--SiftMatching.min_inlier_ratio 0.1",
         "--SiftMatching.max_distance 1.00",
         "--SiftMatching.guided_matching 1",
-        "--SiftMatching.multiple_models 1",
+        "--SiftMatching.multiple_models 0",
     ]
     if matching_method == "vocab_tree":
         vocab_tree_filename = get_vocab_tree()
